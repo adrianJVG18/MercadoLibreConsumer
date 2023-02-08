@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MercadoLibreConsumer</string>
+
+    <!-- Search Toolbar -->
+    <string name="search_on_mercado_libre">Buscar en Mercado Libre</string>
+    <string name="search_icon_drawable">Search icon drawable</string>
 </resources>
