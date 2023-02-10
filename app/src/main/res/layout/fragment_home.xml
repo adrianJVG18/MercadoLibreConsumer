@@ -5,27 +5,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/items_displaying_label"
-        android:layout_width="match_parent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/search_toolbar_host"
         android:layout_height="wrap_content"
-        tools:text="Mostrando resultados para: iPhone 13"
-        android:lines="2"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:name="com.adrian.mercadolibreconsumer.view.fragment.SearchToolBarFragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/products_list_recycler"
-        android:layout_width="match_parent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/products_content_host"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/items_displaying_label"
+        android:layout_width="match_parent"
+        android:name="com.adrian.mercadolibreconsumer.view.fragment.ProductsListFragment"
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar_host"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_simple_product_card"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/fragment_products_list"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

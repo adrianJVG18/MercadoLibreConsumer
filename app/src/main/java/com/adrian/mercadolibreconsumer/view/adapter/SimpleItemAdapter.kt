@@ -12,15 +12,19 @@ import com.squareup.picasso.Picasso
 
 class SimpleItemAdapter(
     private var items: List<Item> = emptyList(),
+    private val onItemClickListener: OnItemClickListener
 ): RecyclerView.Adapter<SimpleItemViewHolder>() {
 
+    interface OnItemClickListener {
+        fun onItemClick(item: Item)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleItemViewHolder {
         val binding = ItemSimpleProductCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SimpleItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SimpleItemViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], onItemClickListener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -29,13 +33,12 @@ class SimpleItemAdapter(
         this.items = items
         notifyDataSetChanged()
     }
-
 }
 
 class SimpleItemViewHolder(
     private val binding: ItemSimpleProductCardBinding
 ): RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: Item) {
+    fun bind(item: Item, clickListener: SimpleItemAdapter.OnItemClickListener) {
         binding.itemTitle.text = item.title
         binding.itemPrice.text = item.price.toPriceTag()
         val condition = item.attributes.find { it.id == "ITEM_CONDITION" }
@@ -43,12 +46,18 @@ class SimpleItemViewHolder(
             binding.itemCondition.visibility = View.VISIBLE
             binding.itemCondition.text = condition.value
         }
-        val context: Context = binding.itemThumbnail.context
 
+        binding.itemParentCard.setOnClickListener {
+            clickListener.onItemClick(item)
+        }
+
+        val context: Context = binding.itemThumbnail.context
         Picasso
             .with(context)
             .load(item.thumbnail)
             .fit()
             .into(binding.itemThumbnail)
+
+
     }
 }

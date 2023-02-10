@@ -10,12 +10,7 @@ import com.adrian.mercadolibreconsumer.domain.interactor.GetProductsByCategoryUs
 import com.adrian.mercadolibreconsumer.domain.model.product.Category
 import com.adrian.mercadolibreconsumer.domain.model.product.Item
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import okhttp3.internal.notifyAll
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -25,8 +20,11 @@ class HomeViewmodel @Inject constructor(
     private val getProductsByCategoryUsecase: GetProductsByCategoryUsecase
 ) : ViewModel() {
 
-    private val _currentCategory: MutableStateFlow<Category> = MutableStateFlow(Category("", ""))
-    val currentCategory = _currentCategory.asStateFlow()
+    private val _currentItem: MutableLiveData<Item> = MutableLiveData()
+    val currentItem: LiveData<Item> = _currentItem
+
+    private val _itemsDisplayingText: MutableLiveData<String> = MutableLiveData("Categoria: ")
+    val itemsDisplayingLabel: LiveData<String> = _itemsDisplayingText
 
     private val _recommendedProducts: MutableLiveData<Output<List<Item>>> =
         MutableLiveData(Output.Loading(false))
@@ -39,14 +37,14 @@ class HomeViewmodel @Inject constructor(
                 when (categories) {
                     is Output.Success -> {
                         val currentCategory = pickRandomCategory(categories.data)
-                        _currentCategory.value = currentCategory
+                        _itemsDisplayingText.value = "Categoria: ${currentCategory.name}"
                         getProductsByCategoryUsecase.invoke(currentCategory.id)
                             .collect {
                                 _recommendedProducts.value = it
                             }
                     }
                     is Output.Failure -> {
-                        _recommendedProducts.value = Output.Failure("Failed to fetch Categories")
+                        _recommendedProducts.value = Output.Failure("Failed to get categories: ${categories.errorMessage}")
                     }
                     else -> {
                         // do waiting stuff
@@ -54,6 +52,14 @@ class HomeViewmodel @Inject constructor(
                 }
             }
         }
+    }
+
+    init {
+        getRecommendedProducts()
+    }
+
+    fun goToProductDetail(item: Item) {
+        _currentItem.value = item
     }
 
     private fun pickRandomCategory(categories: List<Category>) =

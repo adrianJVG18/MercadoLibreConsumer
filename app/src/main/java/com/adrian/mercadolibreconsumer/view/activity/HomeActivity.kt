@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import com.adrian.mercadolibreconsumer.R
 import com.adrian.mercadolibreconsumer.databinding.ActivityHomeBinding
 import com.adrian.mercadolibreconsumer.utils.viewBinding
-import com.adrian.mercadolibreconsumer.view.adapter.SimpleItemAdapter
-import com.adrian.mercadolibreconsumer.view.fragment.ProductsListFragment
-import com.adrian.mercadolibreconsumer.view.fragment.SearchToolBarFragment
+import com.adrian.mercadolibreconsumer.view.fragment.HomeFragment
+import com.adrian.mercadolibreconsumer.view.fragment.ProductDetailFragment
 import com.adrian.mercadolibreconsumer.view.viewmodel.HomeViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,21 +20,29 @@ class HomeActivity : AppCompatActivity() {
     private val viewmodel: HomeViewmodel by viewModels()
 
     @Inject
-    lateinit var searchToolbarFragment: SearchToolBarFragment
+    lateinit var homeFragment: HomeFragment
 
-    @Inject
-    lateinit var productsListFragment: ProductsListFragment
+    lateinit var detailFragment: ProductDetailFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        updateHomeContainer(productsListFragment)
+        updateHomeContainer(homeFragment)
+        setObservers()
+    }
+
+    private fun setObservers() {
+        viewmodel.currentItem.observe(this) { item ->
+            detailFragment = ProductDetailFragment(item)
+            updateHomeContainer(detailFragment)
+        }
     }
 
     private fun updateHomeContainer(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(binding.homeContentContainer.id, fragment)
+            .addToBackStack(null)
             .commit()
     }
 }

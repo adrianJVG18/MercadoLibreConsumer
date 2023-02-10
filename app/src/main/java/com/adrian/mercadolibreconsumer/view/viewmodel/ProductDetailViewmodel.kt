@@ -1,4 +1,14 @@
 package com.adrian.mercadolibreconsumer.view.viewmodel
 
-class ProductDetailViewmodel {
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class ProductDetailViewmodel @Inject constructor(
+
+) : ViewModel() {
+
+
+
 }
