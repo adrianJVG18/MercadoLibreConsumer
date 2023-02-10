@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.HomeActivity"
-    xmlns:tools="http://schemas.android.com/tools">
+    tools:context=".view.activity.HomeActivity">
 
     <include
         android:id="@+id/search_tool_bar_fragment_container"
@@ -18,7 +17,7 @@
         />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/products_list_fragment_container"
+        android:id="@+id/home_content_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"

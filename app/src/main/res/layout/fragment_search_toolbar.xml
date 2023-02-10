@@ -6,6 +6,7 @@
     android:background="@color/meli_main_yellow">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/search_edit_text_card"
         android:layout_width="match_parent"
         android:layout_height="@dimen/search_edit_text_height"
         android:layout_marginStart="16dp"
@@ -31,6 +32,8 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/search_on_mercado_libre"
                 android:layout_marginHorizontal="8dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="@id/search_edit_text_background"
                 app:layout_constraintEnd_toEndOf="@id/search_edit_text_background"
                 app:layout_constraintStart_toEndOf="@id/search_icon"
