@@ -1,56 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/search_toolbar_height"
-    android:background="@color/meli_main_yellow">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/search_edit_text_card"
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.adrian.mercadolibreconsumer.view.viewmodel.HomeViewmodel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/search_edit_text_height"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="24dp"
-        android:background="@color/white"
-        app:cardCornerRadius="@dimen/search_edit_text_corner_radius"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="@dimen/search_toolbar_height"
+        android:background="@color/meli_main_yellow">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/search_edit_text_background"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/search_edit_text_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/search_edit_text_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/search_edit_text_corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/search_edit_text"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@android:color/transparent"
-                android:hint="@string/search_on_mercado_libre"
-                android:layout_marginHorizontal="8dp"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                app:layout_constraintBottom_toBottomOf="@id/search_edit_text_background"
-                app:layout_constraintEnd_toEndOf="@id/search_edit_text_background"
-                app:layout_constraintStart_toEndOf="@id/search_icon"
-                app:layout_constraintTop_toTopOf="@id/search_edit_text_background" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/search_edit_text_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/search_icon"
-                android:layout_width="@dimen/search_icon_size"
-                android:layout_height="@dimen/search_icon_size"
-                android:src="@drawable/ic_baseline_search_24"
-                app:layout_constraintBottom_toBottomOf="@id/search_edit_text_background"
-                app:layout_constraintTop_toTopOf="@id/search_edit_text_background"
-                app:layout_constraintStart_toStartOf="@id/search_edit_text_background"
-                android:layout_marginHorizontal="8dp"
-                android:contentDescription="@string/search_icon_drawable"/>
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/search_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@={viewmodel.query}"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/search_on_mercado_libre"
+                    android:layout_marginHorizontal="8dp"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    app:layout_constraintBottom_toBottomOf="@id/search_edit_text_background"
+                    app:layout_constraintEnd_toEndOf="@id/search_edit_text_background"
+                    app:layout_constraintStart_toEndOf="@id/search_icon"
+                    app:layout_constraintTop_toTopOf="@id/search_edit_text_background" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="@dimen/search_icon_size"
+                    android:layout_height="@dimen/search_icon_size"
+                    android:src="@drawable/ic_baseline_search_24"
+                    app:layout_constraintBottom_toBottomOf="@id/search_edit_text_background"
+                    app:layout_constraintTop_toTopOf="@id/search_edit_text_background"
+                    app:layout_constraintStart_toStartOf="@id/search_edit_text_background"
+                    android:layout_marginHorizontal="8dp"
+                    android:contentDescription="@string/search_icon_drawable" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

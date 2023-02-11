@@ -13,7 +13,7 @@ class GetProductsByCategoryUsecase @Inject constructor(
     private val productsRepository: RemoteProductsRepository
 ) {
 
-    suspend fun invoke(categoryId: String): Flow<Output<List<Item>>> = flow {
+    suspend fun execute(categoryId: String): Flow<Output<List<Item>>> = flow {
         emit(Output.Loading(true))
         productsRepository.getProductsByCategory(categoryId).collect {
             when (it) {

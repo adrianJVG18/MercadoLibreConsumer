@@ -28,7 +28,6 @@ class RemoteProductsRepository @Inject constructor(
     }
 
     override suspend fun getRequestedProducts(searchText: String): Flow<Output<List<Item>>> = flow {
-
         emit(Output.Loading(true))
         val response = meLiApi.getRequestedProducts(searchText)
         emit(Output.Success(response.results))

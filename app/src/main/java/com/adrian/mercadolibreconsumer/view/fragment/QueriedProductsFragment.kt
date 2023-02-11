@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.mercadolibreconsumer.R
 import com.adrian.mercadolibreconsumer.data.Output
-import com.adrian.mercadolibreconsumer.databinding.FragmentProductsListBinding
+import com.adrian.mercadolibreconsumer.databinding.FragmentHomeBinding
 import com.adrian.mercadolibreconsumer.domain.model.product.Item
 import com.adrian.mercadolibreconsumer.utils.viewBinding
 import com.adrian.mercadolibreconsumer.view.adapter.SimpleItemAdapter
@@ -17,10 +17,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProductsListFragment @Inject constructor(
-) : Fragment(R.layout.fragment_products_list) {
+class QueriedProductsFragment @Inject constructor(
+) : Fragment(R.layout.fragment_home) {
 
-    private val binding: FragmentProductsListBinding by viewBinding(FragmentProductsListBinding::bind)
+    private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val viewmodel: HomeViewmodel by activityViewModels()
 
     private val simpleItemAdapter: SimpleItemAdapter by lazy {
@@ -30,26 +30,28 @@ class ProductsListFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         setUpViews()
         initObservers()
     }
 
     private fun initObservers() {
-        viewmodel.recommendedProducts.observe(viewLifecycleOwner) {
+        viewmodel.queriedItems.observe(viewLifecycleOwner) {
             when (it) {
                 is Output.Success -> {
+                    val message = "Resultados de: ${viewmodel.query.value}"
+                    binding.productsContentHost.itemsDisplayingLabel.text = message
                     simpleItemAdapter.updateList(it.data as ArrayList<Item>)
                 }
                 is Output.Failure -> {
+                    binding.productsContentHost.itemsDisplayingLabel.text = ""
                     Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     // do waiting stuff
                 }
             }
-        }
-        viewmodel.itemsDisplayingLabel.observe(viewLifecycleOwner) {
-            binding.itemsDisplayingLabel.text = it
         }
     }
 
@@ -61,7 +63,7 @@ class ProductsListFragment @Inject constructor(
     }
 
     private fun setUpViews(){
-        binding.productsListRecycler.adapter = simpleItemAdapter
-        binding.productsListRecycler.layoutManager = LinearLayoutManager(context)
+        binding.productsContentHost.productsListRecycler.adapter = simpleItemAdapter
+        binding.productsContentHost.productsListRecycler.layoutManager = LinearLayoutManager(context)
     }
 }

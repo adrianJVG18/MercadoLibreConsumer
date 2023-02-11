@@ -14,9 +14,6 @@
         android:theme="@style/Theme.MercadoLibreConsumer.NoActionBar"
         android:windowSoftInputMode="adjustResize">
         <activity
-            android:name=".view.activity.ProductDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.activity.HomeActivity"
             android:exported="true">
             <intent-filter>

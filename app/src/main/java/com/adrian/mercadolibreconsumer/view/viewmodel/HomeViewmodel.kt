@@ -1,27 +1,33 @@
 package com.adrian.mercadolibreconsumer.view.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.adrian.mercadolibreconsumer.data.Output
 import com.adrian.mercadolibreconsumer.domain.interactor.GetCategoriesUsecase
 import com.adrian.mercadolibreconsumer.domain.interactor.GetProductsByCategoryUsecase
+import com.adrian.mercadolibreconsumer.domain.interactor.GetProductsByQuery
 import com.adrian.mercadolibreconsumer.domain.model.product.Category
 import com.adrian.mercadolibreconsumer.domain.model.product.Item
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.internal.notifyAll
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
 class HomeViewmodel @Inject constructor(
     private val getCategoriesUsecase: GetCategoriesUsecase,
-    private val getProductsByCategoryUsecase: GetProductsByCategoryUsecase
+    private val getProductsByCategoryUsecase: GetProductsByCategoryUsecase,
+    private val getProductsByQuery: GetProductsByQuery
 ) : ViewModel() {
+
+    val query = MutableLiveData("")
 
     private val _currentItem: MutableLiveData<Item> = MutableLiveData()
     val currentItem: LiveData<Item> = _currentItem
+
+    private val _queriedItems: MutableLiveData<Output<List<Item>>> = MutableLiveData(Output.Loading(false))
+    val queriedItems: LiveData<Output<List<Item>>> = _queriedItems
 
     private val _itemsDisplayingText: MutableLiveData<String> = MutableLiveData("Categoria: ")
     val itemsDisplayingLabel: LiveData<String> = _itemsDisplayingText
@@ -33,12 +39,12 @@ class HomeViewmodel @Inject constructor(
     fun getRecommendedProducts() {
         viewModelScope.launch {
             _recommendedProducts.value = Output.Loading(true)
-            getCategoriesUsecase.invoke().collect { categories ->
+            getCategoriesUsecase.execute().collect { categories ->
                 when (categories) {
                     is Output.Success -> {
                         val currentCategory = pickRandomCategory(categories.data)
                         _itemsDisplayingText.value = "Categoria: ${currentCategory.name}"
-                        getProductsByCategoryUsecase.invoke(currentCategory.id)
+                        getProductsByCategoryUsecase.execute(currentCategory.id)
                             .collect {
                                 _recommendedProducts.value = it
                             }
@@ -48,6 +54,27 @@ class HomeViewmodel @Inject constructor(
                     }
                     else -> {
                         // do waiting stuff
+                    }
+                }
+            }
+        }
+    }
+
+    fun searchItemsByQuery() {
+        _queriedItems.value = Output.Loading(true)
+        viewModelScope.launch {
+            if (!query.value.isNullOrEmpty()) {
+                getProductsByQuery.execute(query.value as String).collect {
+                    when (it) {
+                        is Output.Success -> {
+                            _queriedItems.postValue(Output.Success(it.data))
+                        }
+                        is Output.Failure -> {
+                            _queriedItems.postValue(Output.Failure(it.errorMessage))
+                        }
+                        else -> {
+                            // do Loading stuff
+                        }
                     }
                 }
             }
