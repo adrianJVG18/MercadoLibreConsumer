@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1535" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_product_detail_fragment.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_product_detail.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_products_list.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_search_toolbar.xml" value="0.2750551527824955" />
+        <entry key="app/src/main/res/layout/item_simple_item_attribute.xml" value="0.17708333333333334" />
+        <entry key="app/src/main/res/layout/item_simple_product_card.xml" value="0.17708333333333334" />
       </map>
     </option>
   </component>
