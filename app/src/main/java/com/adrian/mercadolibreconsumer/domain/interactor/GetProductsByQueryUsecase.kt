@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetProductsByQuery @Inject constructor(
+class GetProductsByQueryUsecase @Inject constructor(
     private val productsRepository: RemoteProductsRepository
 ) {
 

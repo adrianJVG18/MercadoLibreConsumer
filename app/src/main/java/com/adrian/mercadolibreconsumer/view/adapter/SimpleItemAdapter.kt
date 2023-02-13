@@ -52,10 +52,10 @@ class SimpleItemViewHolder(
         }
 
         val context: Context = binding.itemThumbnail.context
-        Picasso
-            .with(context)
-            .load(item.thumbnail)
-            .fit()
+        Picasso.get().isLoggingEnabled = true
+        Picasso.get()
+            .load(item.thumbnail.replace("http://", "https://"))
+            .placeholder(binding.itemThumbnail.drawable)
             .into(binding.itemThumbnail)
 
 

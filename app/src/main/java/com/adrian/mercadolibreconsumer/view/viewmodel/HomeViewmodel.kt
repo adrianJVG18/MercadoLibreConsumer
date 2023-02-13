@@ -4,13 +4,11 @@ import androidx.lifecycle.*
 import com.adrian.mercadolibreconsumer.data.Output
 import com.adrian.mercadolibreconsumer.domain.interactor.GetCategoriesUsecase
 import com.adrian.mercadolibreconsumer.domain.interactor.GetProductsByCategoryUsecase
-import com.adrian.mercadolibreconsumer.domain.interactor.GetProductsByQuery
+import com.adrian.mercadolibreconsumer.domain.interactor.GetProductsByQueryUsecase
 import com.adrian.mercadolibreconsumer.domain.model.product.Category
 import com.adrian.mercadolibreconsumer.domain.model.product.Item
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.internal.notifyAll
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -18,7 +16,7 @@ import kotlin.random.Random
 class HomeViewmodel @Inject constructor(
     private val getCategoriesUsecase: GetCategoriesUsecase,
     private val getProductsByCategoryUsecase: GetProductsByCategoryUsecase,
-    private val getProductsByQuery: GetProductsByQuery
+    private val getProductsByQueryUsecase: GetProductsByQueryUsecase
 ) : ViewModel() {
 
     val query = MutableLiveData("")
@@ -64,7 +62,7 @@ class HomeViewmodel @Inject constructor(
         _queriedItems.value = Output.Loading(true)
         viewModelScope.launch {
             if (!query.value.isNullOrEmpty()) {
-                getProductsByQuery.execute(query.value as String).collect {
+                getProductsByQueryUsecase.execute(query.value as String).collect {
                     when (it) {
                         is Output.Success -> {
                             _queriedItems.postValue(Output.Success(it.data))

@@ -5,4 +5,5 @@
     <string name="search_on_mercado_libre">Buscar en Mercado Libre</string>
     <string name="search_icon_drawable">Search icon drawable</string>
     <string name="thumbnail_of_each_item_product">Thumbnail of each item product</string>
+    <string name="item_thumbnail">item thumbnail</string>
 </resources>

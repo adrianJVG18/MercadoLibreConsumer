@@ -28,8 +28,8 @@ class ProductDetailFragment(
     }
 
     private fun displayItem() {
-        Picasso.with(context)
-            .load(item.thumbnail)
+        Picasso.get()
+            .load(item.thumbnail.replace("http://", "https://"))
             .into(binding.productImageView)
         binding.productTitle.text = item.title
         binding.productPrice.text = item.price.toPriceTag()
